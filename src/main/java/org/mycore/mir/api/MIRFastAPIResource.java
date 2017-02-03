@@ -44,6 +44,7 @@ package org.mycore.mir.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -143,6 +144,9 @@ public class MIRFastAPIResource {
         node.extension = currentNode.getFctid();
         node.size = currentNode.getSize();
         node.href = MCRFrontendUtil.getBaseURL() + "servlets/MCRFileNodeServlet/" + currentNode.getOwner() + node.path;
+        node.time = new MIRFileTime();
+
+        node.time.accessed = node.time.created = node.time.modified = currentNode.getDate();
     }
 
     private String buildPath(MIRFileJson file) {
@@ -175,6 +179,14 @@ public class MIRFastAPIResource {
         public long size;
 
         public String href;
+
+        public MIRFileTime time;
+    }
+
+    class MIRFileTime {
+        public Date created;
+        public Date modified;
+        public Date accessed;
     }
 
 }
